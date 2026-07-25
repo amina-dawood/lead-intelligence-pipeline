@@ -64,6 +64,10 @@ n8n, OpenAI GPT-4o Mini, Airtable, Gmail, Apify (Cheerio Scraper), Discord
 - `sample-data/sample-leads.csv` — fake data for testing
 - `docs/design-decisions.md` — the reasoning behind key choices
 
+## Sample Data
+The `sample-data/sample-leads.csv` file contains anonymized sample lead submissions used for testing the workflow.
+It represents webhook payloads collected from a Tally form and includes different lead qualities, budgets, timelines, and requested services.
+
 ## Note on data
 All sample data is fake/generated. No real client data is included.
 
