@@ -1,0 +1,1650 @@
+{
+  "name": "Lead Intelligence Pipeline",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "lead-in",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -5648,
+        128
+      ],
+      "id": "061873a8-a0be-4aaf-a901-899d84174ff1",
+      "name": "Lead Comes In",
+      "webhookId": "d1f30a99-112d-4a16-9d1d-cc67b9328f2c"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "name",
+              "value": "={{ $json.body.data.fields[0].value }}",
+              "type": "string"
+            },
+            {
+              "id": "a2",
+              "name": "email",
+              "value": "={{ $json.body.data.fields[1].value }}",
+              "type": "string"
+            },
+            {
+              "id": "a3",
+              "name": "message",
+              "value": "={{ $json.body.data.fields[7].value }}",
+              "type": "string"
+            },
+            {
+              "id": "a4",
+              "name": "budget",
+              "value": "={{ $json.body.data.fields[5].value }}",
+              "type": "string"
+            },
+            {
+              "id": "a5",
+              "name": "timeline",
+              "value": "={{ $json.body.data.fields[6].value }}",
+              "type": "string"
+            },
+            {
+              "id": "a6",
+              "name": "service_needed",
+              "value": "=scraping",
+              "type": "string"
+            },
+            {
+              "id": "a7",
+              "name": "company_domain",
+              "value": "={{ $json.body.data.fields[3].value }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -5424,
+        128
+      ],
+      "id": "4f6e76af-904c-4b35-9885-9148aa56cb35",
+      "name": "Normalize Lead Data"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appCGDrFxeErh9PhM",
+          "mode": "list",
+          "cachedResultName": "Lead CRM Training",
+          "cachedResultUrl": "https://airtable.com/appCGDrFxeErh9PhM"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbljg7hrydxkyEVL0",
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://airtable.com/appCGDrFxeErh9PhM/tbljg7hrydxkyEVL0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "budget": "={{ $json.budget }}",
+            "name": "={{ $json.name }}",
+            "email": "={{ $json.email }}",
+            "company": "={{ $json.lead_quality }}",
+            "service_needed": "=scraping",
+            "Status": "New",
+            "notes": "={{ $json.message }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "phone",
+              "displayName": "phone",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "company",
+              "displayName": "company",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "service_needed",
+              "displayName": "service_needed",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "crm_setup",
+                  "value": "crm_setup"
+                },
+                {
+                  "name": "ai_agent",
+                  "value": "ai_agent"
+                },
+                {
+                  "name": "web-dev",
+                  "value": "web-dev"
+                },
+                {
+                  "name": "scraping ",
+                  "value": "scraping "
+                },
+                {
+                  "name": "service_needed",
+                  "value": "service_needed"
+                },
+                {
+                  "name": "automation",
+                  "value": "automation"
+                },
+                {
+                  "name": "scraping",
+                  "value": "scraping"
+                },
+                {
+                  "name": "web_dev",
+                  "value": "web_dev"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "budget",
+              "displayName": "budget",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "New",
+                  "value": "New"
+                },
+                {
+                  "name": "Lost",
+                  "value": "Lost"
+                },
+                {
+                  "name": "Contacted",
+                  "value": "Contacted"
+                },
+                {
+                  "name": "Qualified",
+                  "value": "Qualified"
+                },
+                {
+                  "name": "status",
+                  "value": "status"
+                },
+                {
+                  "name": "new",
+                  "value": "new"
+                },
+                {
+                  "name": "contacted",
+                  "value": "contacted"
+                },
+                {
+                  "name": "qualified",
+                  "value": "qualified"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Owner",
+              "displayName": "Owner",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "notes",
+              "displayName": "notes",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        -4624,
+        128
+      ],
+      "id": "e6cc11cf-dcd2-409d-aefc-14299e3f8728",
+      "name": "Store Lead in CRM",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "KoUpvLKGZ5Jt5SRx",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ $('Parse AI Classification').item.json.lead_quality }}",
+              "rightValue": "hot",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -4400,
+        128
+      ],
+      "id": "0a0ca096-2931-491a-8e33-de5c5d276b1e",
+      "name": "Hot Lead?"
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "=A lead is arrived with bugdet greater then 50000\nname:  {{ $json.fields.name }}\nemail: {{ $json.fields.email }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        -4176,
+        0
+      ],
+      "id": "330b551b-fad9-49d0-95bf-17ae7bf34c6e",
+      "name": "Hot Lead Ping",
+      "webhookId": "26cf2f6d-de32-4295-8148-8cd66b78ea83",
+      "credentials": {
+        "discordWebhookApi": {
+          "id": "Apz4zjayVLye2t6D",
+          "name": "Discord Bot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "aminad4656@gmail.com",
+        "subject": "=New Lead :  {{ $('Parse AI Classification').item.json.name }}: Quality (\n{{ $('Parse AI Classification').item.json.lead_quality }}\n)",
+        "message": "=Name: {{ $('Normalize Lead Data').item.json.name }}\nEmail: {{ $('Normalize Lead Data').item.json.email }}\nQuality:{{ $('Parse AI Classification').item.json.lead_quality }}\nUrgency: {{ $('Parse AI Classification').item.json.urgency }}\nNext action: {{ $('Parse AI Classification').item.json.next_action }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -3952,
+        144
+      ],
+      "id": "f3341e0b-3174-4ea0-95f1-dac9954e099f",
+      "name": "Notify Sales",
+      "webhookId": "b70a9fd9-fdcd-4059-a416-3cf23766bf1d",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "khr4BbHCKpt4O8Jb",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appCGDrFxeErh9PhM",
+          "mode": "list",
+          "cachedResultName": "Lead CRM Training",
+          "cachedResultUrl": "https://airtable.com/appCGDrFxeErh9PhM"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblztC8Rls5rj8Xw5",
+          "mode": "list",
+          "cachedResultName": "Support Tickets",
+          "cachedResultUrl": "https://airtable.com/appCGDrFxeErh9PhM/tblztC8Rls5rj8Xw5"
+        },
+        "filterByFormula": "=={email}='{{ $('Normalize Lead Data').item.json.email }}'",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        -3728,
+        128
+      ],
+      "id": "b2875054-cf7a-4b93-a8f3-19556b68eb68",
+      "name": "Search Related Tickets",
+      "alwaysOutputData": true,
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "KoUpvLKGZ5Jt5SRx",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const lead = $('Parse AI Classification').item.json;\nconst tickets = $input.all().filter(i => Object.keys(i.json).length > 0);\nconst openCount = tickets.filter(t => t.json.fields && t.json.fields.status !== 'resolved').length;\nreturn [{ json: { ...lead, related_ticket_count: tickets.length, open_ticket_count: openCount } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -3504,
+        128
+      ],
+      "id": "522fb4ae-ce07-434f-a2d5-db789812a8d5",
+      "name": "Summarize Ticket History"
+    },
+    {
+      "parameters": {
+        "jsCode": "const followUp = new Date();\nfollowUp.setSeconds(followUp.getSeconds() + 30);\nreturn [{ json: { ...$json, followUpDate: followUp.toISOString() } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -3280,
+        128
+      ],
+      "id": "434a06b0-4474-4639-b9ba-903897d40846",
+      "name": "Calculate Follow-up Date"
+    },
+    {
+      "parameters": {
+        "resume": "specificTime",
+        "dateTime": "={{ $json.followUpDate }}"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -3056,
+        128
+      ],
+      "id": "f076f5ca-7dea-4b21-af8e-e4330ceee6d5",
+      "name": "Schedule Follow-up",
+      "webhookId": "436bbad9-63dd-42f2-afc2-646919c4c7ce"
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "sendTo": "aminad4656@gmail.com",
+        "subject": "=Approve outreach for {{ $json.name }}?",
+        "message": "=Lead: {{ $json.name }} ({{ $json.email }})\nQuality: {{ $json.lead_quality }}\nOpen related tickets: {{ $json.open_ticket_count }}\nSuggested action: {{ $json.next_action }}\n\nApprove sending the follow-up email?",
+        "approvalOptions": {
+          "values": {
+            "approvalType": "double"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -2832,
+        128
+      ],
+      "id": "5fd968c6-b565-4acc-ba03-82f673c7d99c",
+      "name": "Human Approval",
+      "webhookId": "07a40883-912b-468c-bd07-104ffe35c237",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "khr4BbHCKpt4O8Jb",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c2",
+              "leftValue": "={{ $json.data.approved }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -2608,
+        128
+      ],
+      "id": "428c8d58-10f8-44a4-b960-78f0968da899",
+      "name": "Approved?"
+    },
+    {
+      "parameters": {
+        "sendTo": "=aminad4656@gmail.com",
+        "subject": "Following up on your inquiry",
+        "message": "=Hi {{ $('Normalize Lead Data').item.json.name }},\n\nThanks for reaching out. {{ $('Parse AI Classification').item.json.next_action }}\n\nLooking forward to connecting.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -2384,
+        32
+      ],
+      "id": "b9438658-2ab0-41f9-a4fc-e7fa32991bf9",
+      "name": "Send Email",
+      "webhookId": "72f36b70-d8ec-4d56-9cbc-21d05ec40ddf",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "khr4BbHCKpt4O8Jb",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -2384,
+        224
+      ],
+      "id": "940b7b41-1227-47b6-b9d8-ec987554090d",
+      "name": "Approval Rejected"
+    },
+    {
+      "parameters": {
+        "operation": "Run actor and get dataset",
+        "actorSource": "store",
+        "actorId": {
+          "__rl": true,
+          "value": "YrQuEkowkNCLdk4j2",
+          "mode": "list",
+          "cachedResultName": "Cheerio Scraper (apify/cheerio-scraper)"
+        },
+        "customBody": "={{ JSON.stringify({ startUrls: [ { url: 'https://' + $('Normalize Lead Data').item.json.company_domain } ], maxRequestsPerCrawl: 3, pageFunction: \"async function pageFunction(context) { const { $, request } = context; return { url: request.url, title: $('title').text().trim(), description: $('meta[name=description]').attr('content') || '' }; }\" }) }}",
+        "timeout": {},
+        "memory": 2048,
+        "authentication": "apifyOAuth2Api"
+      },
+      "type": "@apify/n8n-nodes-apify.apify",
+      "typeVersion": 1,
+      "position": [
+        -2160,
+        128
+      ],
+      "id": "4bb9831c-f7c1-432a-849e-0987549e4cc2",
+      "name": "Scrape Company Website",
+      "credentials": {
+        "apifyOAuth2Api": {
+          "id": "2bVxvwEZG0glwCKh",
+          "name": "Apify account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\nreturn [{ json: {\n  company_domain: $('Normalize Lead Data').item.json.company_domain,\n  page_title: item.title,\n  description: item.description,\n  last_checked: new Date().toISOString()\n} }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1936,
+        128
+      ],
+      "id": "067e233d-02c4-4d21-893a-b5ff62a27dbc",
+      "name": "Normalize Company Data"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appCGDrFxeErh9PhM",
+          "mode": "list",
+          "cachedResultName": "Lead CRM Training",
+          "cachedResultUrl": "https://airtable.com/appCGDrFxeErh9PhM"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblhcXn7wBOD6EaIQ",
+          "mode": "list",
+          "cachedResultName": "Company Intel",
+          "cachedResultUrl": "https://airtable.com/appCGDrFxeErh9PhM/tblhcXn7wBOD6EaIQ"
+        },
+        "filterByFormula": "={company_domain}='{{$json.company_domain}}'",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        -1712,
+        128
+      ],
+      "id": "82f9a463-0ab6-4c91-aa21-e8187d0b4672",
+      "name": "Search Company Snapshot",
+      "alwaysOutputData": true,
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "KoUpvLKGZ5Jt5SRx",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c3",
+              "leftValue": "={{ Object.keys($json).length === 0 }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "boolean",
+                "operation": "false",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1488,
+        128
+      ],
+      "id": "5ebe6ad6-8071-47f9-b46b-f3ea37bc7fd1",
+      "name": "Snapshot Exists?"
+    },
+    {
+      "parameters": {
+        "jsCode": "const current = $('Normalize Company Data').item.json;\nconst existing = $json.fields;\nconst changed = current.page_title !== existing.page_title || current.description !== existing.description;\nreturn [{ json: {\n  recordId: $json.id,\n  company_domain: current.company_domain,\n  page_title: current.page_title,\n  description: current.description,\n  previous_title: existing.page_title || '',\n  change_status: changed ? 'changed' : 'unchanged'\n} }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1264,
+        32
+      ],
+      "id": "0d200019-2004-49a9-905f-3e187c56b9c7",
+      "name": "Compare Company Snapshot"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appCGDrFxeErh9PhM",
+          "mode": "list",
+          "cachedResultName": "Lead CRM Training",
+          "cachedResultUrl": "https://airtable.com/appCGDrFxeErh9PhM"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblhcXn7wBOD6EaIQ",
+          "mode": "list",
+          "cachedResultName": "Company Intel",
+          "cachedResultUrl": "https://airtable.com/appCGDrFxeErh9PhM/tblhcXn7wBOD6EaIQ"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "company_domain": "={{ $('Normalize Company Data').item.json.company_domain }}",
+            "page_title": "={{ $('Normalize Company Data').item.json.page_title }}",
+            "description": "={{ $('Normalize Company Data').item.json.description }}",
+            "last_checked": "={{ $('Normalize Company Data').item.json.last_checked }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "company_domain",
+              "displayName": "company_domain",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "page_title",
+              "displayName": "page_title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "description",
+              "displayName": "description",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "last_checked",
+              "displayName": "last_checked",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "typecast": true
+        }
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        -816,
+        320
+      ],
+      "id": "4abbec53-43ac-4aa5-a627-ef08102a60b7",
+      "name": "Create Company Snapshot",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "KoUpvLKGZ5Jt5SRx",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c4",
+              "leftValue": "={{ $json.change_status }}",
+              "rightValue": "changed",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1040,
+        32
+      ],
+      "id": "39c1e178-a048-4baf-859b-8452a392ec69",
+      "name": "Company Changed?"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appCGDrFxeErh9PhM",
+          "mode": "list",
+          "cachedResultName": "Lead CRM Training",
+          "cachedResultUrl": "https://airtable.com/appCGDrFxeErh9PhM"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblhcXn7wBOD6EaIQ",
+          "mode": "list",
+          "cachedResultName": "Company Intel",
+          "cachedResultUrl": "https://airtable.com/appCGDrFxeErh9PhM/tblhcXn7wBOD6EaIQ"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $json.recordId }}",
+            "company_domain": "={{ $('Normalize Lead Data').item.json.company_domain }}",
+            "page_title": "={{ $('Normalize Company Data').item.json.page_title }}",
+            "description": "={{ $('Normalize Company Data').item.json.description }}",
+            "last_checked": "={{ $('Normalize Company Data').item.json.last_checked }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "company_domain",
+              "displayName": "company_domain",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "page_title",
+              "displayName": "page_title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "description",
+              "displayName": "description",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "last_checked",
+              "displayName": "last_checked",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.2,
+      "position": [
+        -816,
+        -64
+      ],
+      "id": "5ab6687e-ea70-4cf0-a5c1-8b852ac2fb40",
+      "name": "Update Company Snapshot",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "KoUpvLKGZ5Jt5SRx",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -816,
+        128
+      ],
+      "id": "42362e9f-dcdd-4102-9b19-33d4f88f149f",
+      "name": "No Company Change"
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "=📋 Lead Pipeline Completed\n\nLead: {{$('Normalize Lead Data').item.json.name}}\n\nEmail: {{$('Normalize Lead Data').item.json.email}}\n\nQuality: {{$('Parse AI Classification').item.json.lead_quality}}\n\nUrgency: {{$('Parse AI Classification').item.json.urgency}}\n\nCompany: {{$('Normalize Company Data').item.json.company_domain}}\n\nOpen Tickets: {{$('Summarize Ticket History').item.json.open_ticket_count}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        -592,
+        128
+      ],
+      "id": "3300d225-6d56-4089-be1f-f1ff3421b0bb",
+      "name": "Send Final Summary Alert",
+      "webhookId": "6b13afe2-e4fb-436a-87a6-5d7a0622361f",
+      "credentials": {
+        "discordWebhookApi": {
+          "id": "Apz4zjayVLye2t6D",
+          "name": "Discord Bot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "=Classify this lead.\n\nName:\n{{ $('Normalize Lead Data').item.json.name }}\n\nMessage:\n{{ $('Normalize Lead Data').item.json.message }}\n\nBudget:\n{{ $('Normalize Lead Data').item.json.budget }}\n\nTimeline:\n{{ $('Normalize Lead Data').item.json.timeline }}\n\nService:\n{{ $('Normalize Lead Data').item.json.service_needed }}\nif budget is greater than 50000 and all fileds are fill then it should be hot.\nReturn ONLY JSON in this format:\n\n{\n \"lead_quality\":\"hot|warm|cold\",\n \"urgency\":\"immediate|soon|flexible\",\n \"next_action\":\"\",\n \"confidence\":0.0\n}"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        -5200,
+        128
+      ],
+      "id": "e46eccd1-5ebb-4443-a955-405384a958be",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get AI response\nconst raw = $json.output[0].content[0].text\n  .replace(/```json|```/g, '')\n  .trim();\n\n// Convert JSON string into object\nconst parsed = JSON.parse(raw);\n\n// Original lead data\nconst lead = $('Normalize Lead Data').item.json;\n\n// Merge lead + AI output\nreturn [\n  {\n    json: {\n      ...lead,\n      ...parsed\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -4848,
+        128
+      ],
+      "id": "f8805caf-07ac-467b-9374-d691e2f76511",
+      "name": "Parse AI Classification"
+    }
+  ],
+  "pinData": {
+    "Lead Comes In": [
+      {
+        "json": {
+          "headers": {
+            "host": "aeman1122.app.n8n.cloud",
+            "user-agent": "Tally Webhooks",
+            "content-length": "2258",
+            "accept": "application/json, text/plain, */*",
+            "accept-encoding": "gzip, br",
+            "baggage": "sentry-environment=production,sentry-release=fa591832d0df300ac55c0ad68d9127ef48d66b07,sentry-public_key=6af4b6673f1648edaa8fef3f2ca43405,sentry-trace_id=ce286499eed1409c92168f931f16cc08,sentry-org_id=407628,sentry-sampled=false,sentry-sample_rand=0.08587031294019365,sentry-sample_rate=0.001",
+            "cdn-loop": "cloudflare; loops=1; subreqs=1",
+            "cf-connecting-ip": "34.96.41.48",
+            "cf-ew-via": "15",
+            "cf-ipcountry": "GB",
+            "cf-ray": "a202b438f86fd08b-CDG",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "cf-worker": "n8n.cloud",
+            "content-type": "application/json",
+            "sentry-trace": "ce286499eed1409c92168f931f16cc08-ada7885d5f933675-0",
+            "x-forwarded-for": "34.96.41.48, 172.71.119.99",
+            "x-forwarded-host": "aeman1122.app.n8n.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "traefik-prod-users-swc-1-68475655b6-kfgvb",
+            "x-is-trusted": "yes",
+            "x-real-ip": "34.96.41.48"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "eventId": "f5a40e4e-2521-431d-8e80-ae7cc32971f7",
+            "eventType": "FORM_RESPONSE",
+            "createdAt": "2026-07-24T11:48:23.761Z",
+            "data": {
+              "responseId": "o9lBerP",
+              "submissionId": "o9lBerP",
+              "respondentId": "PdPGdre",
+              "formId": "pb9xZZ",
+              "formName": "Client Lead Intake Form",
+              "createdAt": "2026-07-24T11:48:23.000Z",
+              "submissionPdfUrl": "https://api.tally.so/forms/pb9xZZ/submissions/o9lBerP/pdf?accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJtaXNzaW9uSWQiOiJvOWxCZXJQIiwiZm9ybUlkIjoicGI5eFpaIiwiaWF0IjoxNzg0ODkzNzAzfQ.brtFCkMSWHyF_Znp2sLvepkE3Al8WLz-y1T0P1YpDoY&signature=fea30d76779313c8ddae8fe838765e283e951d77324e7e07feffeab1074806af",
+              "submissionPreviewUrl": "https://tally.so/forms/pb9xZZ/submissions/o9lBerP/preview?accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJtaXNzaW9uSWQiOiJvOWxCZXJQIiwiZm9ybUlkIjoicGI5eFpaIiwiaWF0IjoxNzg0ODkzNzAzfQ.brtFCkMSWHyF_Znp2sLvepkE3Al8WLz-y1T0P1YpDoY&signature=fea30d76779313c8ddae8fe838765e283e951d77324e7e07feffeab1074806af",
+              "fields": [
+                {
+                  "key": "question_ZlX8x0",
+                  "label": "name",
+                  "type": "INPUT_TEXT",
+                  "value": "john"
+                },
+                {
+                  "key": "question_NLvrzG",
+                  "label": "email",
+                  "type": "INPUT_EMAIL",
+                  "value": "john@gmail.com"
+                },
+                {
+                  "key": "question_qOXLy2",
+                  "label": "phone",
+                  "type": "INPUT_PHONE_NUMBER",
+                  "value": "+923099819290"
+                },
+                {
+                  "key": "question_Qdp1Gg",
+                  "label": "company",
+                  "type": "INPUT_TEXT",
+                  "value": "nike.com"
+                },
+                {
+                  "key": "question_9OPBVG",
+                  "label": "service_needed",
+                  "type": "DROPDOWN",
+                  "value": [
+                    "026250b6-4594-4013-97a2-e1b656743397"
+                  ],
+                  "options": [
+                    {
+                      "id": "f5eee7fb-d086-493e-8571-ac78f710b7b9",
+                      "text": "automation"
+                    },
+                    {
+                      "id": "3e66bb8e-7d64-4c14-9ce6-67cd6c89f064",
+                      "text": "web-dev"
+                    },
+                    {
+                      "id": "026250b6-4594-4013-97a2-e1b656743397",
+                      "text": "scraping"
+                    }
+                  ]
+                },
+                {
+                  "key": "question_eL8M4q",
+                  "label": "budget",
+                  "type": "INPUT_TEXT",
+                  "value": "60000"
+                },
+                {
+                  "key": "question_WPX2yJ",
+                  "label": "timeline",
+                  "type": "INPUT_TEXT",
+                  "value": "2 week"
+                },
+                {
+                  "key": "question_a0X9V9",
+                  "label": "message",
+                  "type": "TEXTAREA",
+                  "value": "abcakjewjk"
+                },
+                {
+                  "key": "question_6RGLoe",
+                  "label": "consent",
+                  "type": "CHECKBOXES",
+                  "value": [
+                    "8971e326-efc1-498e-9513-e1980bd1bc49"
+                  ],
+                  "options": [
+                    {
+                      "id": "8971e326-efc1-498e-9513-e1980bd1bc49",
+                      "text": "I agree to be contacted about this inquiry"
+                    }
+                  ]
+                },
+                {
+                  "key": "question_6RGLoe_8971e326-efc1-498e-9513-e1980bd1bc49",
+                  "label": "consent (I agree to be contacted about this inquiry)",
+                  "type": "CHECKBOXES",
+                  "value": true
+                }
+              ]
+            }
+          },
+          "webhookUrl": "https://aeman1122.app.n8n.cloud/webhook-test/lead-in",
+          "executionMode": "test"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Normalize Lead Data": [
+      {
+        "json": {
+          "name": "john",
+          "email": "john@gmail.com",
+          "message": "abcakjewjk",
+          "budget": "60000",
+          "timeline": "2 week",
+          "service_needed": "scraping",
+          "company_domain": "nike.com"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Message a model": [
+      {
+        "json": {
+          "output": [
+            {
+              "id": "msg_021c4d812f7e78aa006a6363cf1494819e8aa1755062ac4eda",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": "```json\n{\n  \"lead_quality\": \"hot\",\n  \"urgency\": \"immediate\",\n  \"next_action\": \"Contact John to discuss scraping services and confirm details.\",\n  \"confidence\": 0.9\n}\n```"
+                }
+              ],
+              "role": "assistant"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Hot Lead Ping": [
+      {
+        "json": {
+          "success": true
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Store Lead in CRM": [
+      {
+        "json": {
+          "id": "recJnELDDe42zu6o7",
+          "createdTime": "2026-07-24T13:09:42.000Z",
+          "fields": {
+            "budget": 60000,
+            "service_needed": "scraping",
+            "company": "hot",
+            "notes": "abcakjewjk",
+            "name": "john",
+            "created_at": "2026-07-24T13:09:42.000Z",
+            "email": "john@gmail.com",
+            "Status": "New"
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Scrape Company Website": [
+      {
+        "json": {
+          "url": "https://nike.com",
+          "title": "Nike. Just Do It. Nike.com",
+          "description": "Inspiring the world's athletes, Nike delivers innovative products, experiences and services.",
+          "#error": false,
+          "#debug": {
+            "requestId": "JcjQTaBjz9nhX4B",
+            "url": "https://nike.com",
+            "loadedUrl": "https://www.nike.com/",
+            "method": "GET",
+            "retryCount": 2,
+            "errorMessages": [
+              "RequestError: Timeout awaiting 'request' for 60000ms\n    at ClientRequest.<anonymous> (file:///usr/src/app/node_modules/got/dist/source/core/index.js:868:61)\n    at Object.onceWrapper (node:events:631:26)\n    at ClientRequest.emit (node:events:521:24)\n    at request.emit (file:///usr/src/app/node_modules/got-scraping/dist/index.js:703:14)\n    at emitErrorNT (node:internal/streams/destroy:170:8)\n    at emitErrorCloseNT (node:internal/streams/destroy:129:3)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)\n    at Timeout._onTimeout (file:///usr/src/app/node_modules/got/dist/source/core/timed-out.js:38:33)\n    at listOnTimeout (node:internal/timers:605:17)\n    at process.processTimers (node:internal/timers:541:7)",
+              "Error: Request blocked - received 403 status code.\n    at CheerioCrawler._throwOnBlockedRequest (/usr/src/app/node_modules/@crawlee/basic/internals/basic-crawler.js:913:19)\n    at CheerioCrawler._runRequestHandler (/usr/src/app/node_modules/@crawlee/http/internals/http-crawler.js:324:22)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async CheerioCrawler._runRequestHandler (/usr/src/app/node_modules/@crawlee/cheerio/internals/cheerio-crawler.js:153:9)\n    at async wrap (/usr/src/app/node_modules/@apify/timeout/cjs/index.cjs:54:21)"
+            ],
+            "statusCode": 200
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Normalize Company Data": [
+      {
+        "json": {
+          "company_domain": "nike.com",
+          "page_title": "Nike. Just Do It. Nike.com",
+          "description": "Inspiring the world's athletes, Nike delivers innovative products, experiences and services.",
+          "last_checked": "2026-07-24T13:27:01.570Z"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Calculate Follow-up Date": [
+      {
+        "json": {
+          "name": "john",
+          "email": "john@gmail.com",
+          "message": "abcakjewjk",
+          "budget": "60000",
+          "timeline": "2 week",
+          "service_needed": "scraping",
+          "company_domain": "nike.com",
+          "lead_quality": "hot",
+          "urgency": "immediate",
+          "next_action": "Contact John to discuss scraping services and confirm details.",
+          "confidence": 0.9,
+          "related_ticket_count": 0,
+          "open_ticket_count": 0,
+          "followUpDate": "2026-07-24T13:53:21.333Z"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Notify Sales": [
+      {
+        "json": {
+          "id": "19f94666f0f3aab8",
+          "threadId": "19f94666f0f3aab8",
+          "labelIds": [
+            "UNREAD",
+            "SENT",
+            "INBOX"
+          ]
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Schedule Follow-up": [
+      {
+        "json": {
+          "name": "john",
+          "email": "john@gmail.com",
+          "message": "abcakjewjk",
+          "budget": "60000",
+          "timeline": "2 week",
+          "service_needed": "scraping",
+          "company_domain": "nike.com",
+          "lead_quality": "hot",
+          "urgency": "immediate",
+          "next_action": "Contact John to discuss scraping services and confirm details.",
+          "confidence": 0.9,
+          "related_ticket_count": 0,
+          "open_ticket_count": 0,
+          "followUpDate": "2026-07-24T13:53:21.333Z"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Parse AI Classification": [
+      {
+        "json": {
+          "name": "john",
+          "email": "john@gmail.com",
+          "message": "abcakjewjk",
+          "budget": "60000",
+          "timeline": "2 week",
+          "service_needed": "scraping",
+          "company_domain": "nike.com",
+          "lead_quality": "hot",
+          "urgency": "immediate",
+          "next_action": "Contact John to discuss scraping services and confirm details.",
+          "confidence": 0.9
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Lead Comes In": {
+      "main": [
+        [
+          {
+            "node": "Normalize Lead Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Lead Data": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store Lead in CRM": {
+      "main": [
+        [
+          {
+            "node": "Hot Lead?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Hot Lead?": {
+      "main": [
+        [
+          {
+            "node": "Hot Lead Ping",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Notify Sales",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Hot Lead Ping": {
+      "main": [
+        [
+          {
+            "node": "Notify Sales",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify Sales": {
+      "main": [
+        [
+          {
+            "node": "Search Related Tickets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Related Tickets": {
+      "main": [
+        [
+          {
+            "node": "Summarize Ticket History",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize Ticket History": {
+      "main": [
+        [
+          {
+            "node": "Calculate Follow-up Date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate Follow-up Date": {
+      "main": [
+        [
+          {
+            "node": "Schedule Follow-up",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Follow-up": {
+      "main": [
+        [
+          {
+            "node": "Human Approval",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Human Approval": {
+      "main": [
+        [
+          {
+            "node": "Approved?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Approved?": {
+      "main": [
+        [
+          {
+            "node": "Send Email",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Approval Rejected",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Email": {
+      "main": [
+        [
+          {
+            "node": "Scrape Company Website",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Approval Rejected": {
+      "main": [
+        [
+          {
+            "node": "Scrape Company Website",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scrape Company Website": {
+      "main": [
+        [
+          {
+            "node": "Normalize Company Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Company Data": {
+      "main": [
+        [
+          {
+            "node": "Search Company Snapshot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Company Snapshot": {
+      "main": [
+        [
+          {
+            "node": "Snapshot Exists?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Snapshot Exists?": {
+      "main": [
+        [
+          {
+            "node": "Compare Company Snapshot",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Company Snapshot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compare Company Snapshot": {
+      "main": [
+        [
+          {
+            "node": "Company Changed?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Company Changed?": {
+      "main": [
+        [
+          {
+            "node": "Update Company Snapshot",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Company Change",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Company Snapshot": {
+      "main": [
+        [
+          {
+            "node": "Send Final Summary Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Company Snapshot": {
+      "main": [
+        [
+          {
+            "node": "Send Final Summary Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No Company Change": {
+      "main": [
+        [
+          {
+            "node": "Send Final Summary Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Parse AI Classification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse AI Classification": {
+      "main": [
+        [
+          {
+            "node": "Store Lead in CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "5eac39a2-8624-40e1-8310-eff088da38a3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6bb69d5c75444b4ca8f56cee737733d0df565b48caf5eab9e4b3fb1dc102fece"
+  },
+  "nodeGroups": [],
+  "id": "Av7cqXumSpXUZeM0",
+  "tags": []
+}
